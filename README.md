@@ -2,7 +2,7 @@
 
 <div>
   <h1>Step 1: </h1>
-  <h3>Install Laragon or Xampp And IntelliJ</h3>
+  <h3>Install Programs (Necessary)</h3>
 
   *[IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/?section=windows)*  *เลื่อนไปข้างล่างหน่อยเด้อ*
 
