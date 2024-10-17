@@ -57,5 +57,5 @@
 | Method | URI              | Description   | Request Body                          | Response Body |
 |--------|------------------|---------------|---------------------------------------|---------------|
 | POST   | /api/auth/login  | Login  User   | usernameOrEmail                       | OK            |
-| POST   | /api/auth/signup | Register User | name, username, email, password, role | Data          |
+| POST   | /api/auth/signup | Register User | name, username, email, password, role | [{ Data }]     |
 
