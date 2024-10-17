@@ -6,7 +6,7 @@
 
   *[IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/?section=windows)*  *เลื่อนไปข้างล่างหน่อยเด้อ*
 
-  *[Laragon](https://www.postman.com/downloads/)* 
+  *[POSTMAN](https://www.postman.com/downloads/)* *ตัวทดสอบ API*
 
   ถ้ามี <strong>XAMPP</strong> แล้วไม่จำเป็นต้องติดตั้ง
 
