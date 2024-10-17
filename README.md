@@ -20,7 +20,7 @@
 
 <div>
   <h1>Step : 2</h1>
-  <h3>Install NodeJS And Java JDK 17 (For this one only)</h3>
+  <h3>Install NodeJS And Java JDK 17 (For this project only)</h3>
 
   *[Java JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)*
   
