@@ -50,5 +50,12 @@
   <h2>## Ruay = Spring Boot: Backend</h2>
   <h2>## ruay3 = ReactJS: Frontend</h2>
 </div>
+<hr />
 
+<h3>AUTH API ROUTE</h3>
+
+| Method | URI              | Description   | Request Body                          | Response Body |
+|--------|------------------|---------------|---------------------------------------|---------------|
+| POST   | /api/auth/login  | Login         | usernameOrEmail                       | OK            |
+| POST   | /api/auth/signup | Register User | name, username, email, password, role | Data          |
 
