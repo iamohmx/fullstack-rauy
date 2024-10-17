@@ -24,10 +24,12 @@
 </div>
 
 <hr/>
+
+<h1>ตอนนีั้ Step 3 ยังไม่จำเป็น <strong>อย่าเพิ่งทำ</strong> </h1>
 <div>
   <h1>Step : 3</h1>
-  <h3>ดาวน์โหลด Modules ใน ReactJS</h3>
-<p>เข้าไปยัง Folder *ruay3* แล้วใช้คำสั่งด้านล่างนี้</p>
+  <h3>ดาวน์โหลด Modules ให้ ReactJS เพื่อที่จะให้ทำงานตรงกัน</h3>
+<p>เข้าไปยัง Folder <strong><i>ruay3</i></strong> แล้วใช้คำสั่งด้านล่างนี้</p>
 
   ```nodejs
     npm i
