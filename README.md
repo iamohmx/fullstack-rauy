@@ -6,6 +6,10 @@
 
   *[IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/?section=windows)*  *เลื่อนไปข้างล่างหน่อยเด้อ*
 
+  *[Laragon](https://www.postman.com/downloads/)* 
+
+  ถ้ามี <strong>XAMPP</strong> แล้วไม่จำเป็นต้องติดตั้ง
+
   *[Laragon](https://laragon.org/download/)*  (**recommend**)
   
   *[Xampp](https://www.apachefriends.org/download.html)*
