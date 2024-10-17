@@ -11,7 +11,7 @@
 <hr/>
 
 <div>
-   <h2>## Ruay = Spring Boot: Backend</h2>
+  <h2>## Ruay = Spring Boot: Backend</h2>
   <h2>## ruay3 = ReactJS: Frontend</h2>
 </div>
 
