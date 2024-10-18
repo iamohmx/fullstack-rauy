@@ -3,12 +3,12 @@ package com.ruaymak3.Ruay.services;
 import com.ruaymak3.Ruay.dto.CategoryDto;
 import com.ruaymak3.Ruay.models.Category;
 import com.ruaymak3.Ruay.repositories.CategoryRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -26,8 +26,17 @@ public class CategoryService {
         return categoryDto;
     }
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> getAllCategories() {
+        List<Category> categories = categoryRepository.findAll();
+
+        return categories.stream()
+                .map(category -> {
+                    CategoryDto categoryDto = new CategoryDto();
+                    categoryDto.setId(category.getId());
+                    categoryDto.setName(category.getName());
+                    return categoryDto;
+                })
+                .collect(Collectors.toList());
     }
 
     public Optional<Category> updateCategory(Long id, Category category) {
