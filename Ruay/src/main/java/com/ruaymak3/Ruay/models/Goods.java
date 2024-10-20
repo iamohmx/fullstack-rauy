@@ -20,7 +20,7 @@ public class Goods {
     private Long goodId;
 
     @NotNull(message = "Product name is required")
-    @Column(name = "product_name", nullable = false)
+    @Column(name = "good_name", nullable = false)
     private String name;
 
     @NotNull(message = "Product image is required")

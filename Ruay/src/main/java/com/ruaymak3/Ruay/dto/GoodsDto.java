@@ -4,7 +4,7 @@ import com.ruaymak3.Ruay.models.Category;
 import lombok.Data;
 
 @Data
-public class ProductDto {
+public class GoodsDto {
     private Long id;
     private String name;
     private String image;
