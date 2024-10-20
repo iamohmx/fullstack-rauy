@@ -6,15 +6,18 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "good")
+public class Goods {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "good_id")
+    private Long goodId;
 
     @NotNull(message = "Product name is required")
     @Column(name = "product_name", nullable = false)

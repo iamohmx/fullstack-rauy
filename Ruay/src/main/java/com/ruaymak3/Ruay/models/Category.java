@@ -24,16 +24,16 @@ public class Category {
 
     @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();
+    private List<Goods> products = new ArrayList<>();
 
     // Helper method to add product
-    public void addProduct(Product product) {
+    public void addProduct(Goods product) {
         products.add(product);
         product.setCategory(this);
     }
 
     // Helper method to remove product
-    public void removeProduct(Product product) {
+    public void removeProduct(Goods product) {
         products.remove(product);
         product.setCategory(null);
     }

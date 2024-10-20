@@ -8,5 +8,5 @@ import java.util.List;
 public class CategoryDto {
     private Long id;
     private String name;
-    private List<ProductDto> productDtos;
+//    private List<ProductDto> productDtos;
 }
