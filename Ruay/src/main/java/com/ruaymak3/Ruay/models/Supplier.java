@@ -5,7 +5,8 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data@Entity
+@Data
+@Entity
 @Table(name = "suppliers")
 public class Supplier {
     @Id
@@ -21,7 +22,7 @@ public class Supplier {
     @Column(name = "e_mail")
     private String email;
 
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SupplierGood> supplierGoods;
 
     // Getters and setters

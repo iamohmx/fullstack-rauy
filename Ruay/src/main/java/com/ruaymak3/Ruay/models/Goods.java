@@ -23,16 +23,16 @@ public class Goods {
     @Column(name = "good_name", nullable = false)
     private String name;
 
-    @NotNull(message = "Product image is required")
+    @NotNull(message = "Goods image is required")
     @Column(nullable = false)
     @ColumnDefault("'https://dummyimage.com/400x400/4a4a4a/fff.png&text=Product'")
     private String image;
 
-    @NotNull(message = "Product price is required")
+    @NotNull(message = "Goods price is required")
     @Column(nullable = false)
     private double price;
 
-    @NotNull(message = "Product quantity is required")
+    @NotNull(message = "Goods quantity is required")
     @Column(nullable = false)
     @ColumnDefault("0")
     private int quantity;
