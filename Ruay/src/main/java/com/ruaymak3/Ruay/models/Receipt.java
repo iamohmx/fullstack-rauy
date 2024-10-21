@@ -3,6 +3,7 @@ package com.ruaymak3.Ruay.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,16 +11,24 @@ import java.util.List;
 @Entity
 @Table(name = "receipt")
 public class Receipt {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Column(nullable = false)
     private String cust;
+
+    @Column(nullable = false)
     private Integer total;
 
-    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
-    private List<ReceiptDetail> details;
+    @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ReceiptDetail> receiptDetails = new ArrayList<>();
 
-    // Getters and setters
+    // Getter and Setters
 }
+

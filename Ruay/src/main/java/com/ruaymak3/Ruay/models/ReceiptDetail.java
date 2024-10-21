@@ -8,19 +8,23 @@ import lombok.Data;
 @Entity
 @Table(name = "receipt_detail")
 public class ReceiptDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "good_id")
-    private Long goodId;
-
-    private Integer quantity;
-    private Double amount;
-
-    @ManyToOne
-    @JoinColumn(name = "receipt_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rec_id", nullable = false)
     private Receipt receipt;
 
-    // Getters and setters
+    @Column(name = "good_id", nullable = false)
+    private Integer goodId;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Double amount;
+
+    // Getter and Setters
 }
