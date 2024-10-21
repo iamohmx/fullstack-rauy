@@ -11,18 +11,20 @@ public class InvoiceDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "good_id")
-    private Long goodId;
-
-    private Integer quantity;
-    private Double amount;
-
-    @Enumerated(EnumType.ORDINAL)
-    private Status status;
-
-    @ManyToOne
-    @JoinColumn(name = "invoice_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inv_id", nullable = false)
     private Invoice invoice;
 
-    // Getters and setters
+    @Column(name = "good_id", nullable = false)
+    private Integer goodId;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Double amount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private InvoiceStatus status; // ใช้ Enum แทน Integer สำหรับสถานะ
 }

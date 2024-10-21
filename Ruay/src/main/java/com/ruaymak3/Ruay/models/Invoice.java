@@ -1,5 +1,6 @@
 package com.ruaymak3.Ruay.models;
 
+import com.ruaymak3.Ruay.models.InvoiceDetail;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,14 +15,21 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sup_id")
-    private Long supId;
+    @Column(name = "sup_id", nullable = false)
+    private Integer supId;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Column(nullable = false)
     private Integer total;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
-    private List<InvoiceDetail> details;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private InvoiceStatus status;  // เพิ่มฟิลด์ status สำหรับสถานะของ Invoice
 
-    // Getters and setters
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<InvoiceDetail> invoiceDetails;
+
 }
