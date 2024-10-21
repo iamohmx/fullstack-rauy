@@ -27,6 +27,15 @@ public class GoodsController {
         return ResponseEntity.ok(goodsService.getAllGoods());
     }
 
+    @GetMapping("/getGoods/{id}")
+    public ResponseEntity<?> getGoods(@PathVariable Long id) {
+        Optional<GoodsDto> goodsOptional = goodsService.getGoods(id);
+        if (goodsOptional.isPresent()) {
+            return ResponseEntity.status(200).body(goodsOptional.get());
+        }
+            return ResponseEntity.status(404).body("Goods not found");
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> addGoods(@Valid @RequestBody Goods goods) {
         // ตรวจสอบ Category ที่มาจาก Request

@@ -6,7 +6,6 @@ import com.ruaymak3.Ruay.models.Goods;
 import com.ruaymak3.Ruay.models.Category;
 import com.ruaymak3.Ruay.repositories.CategoryRepository;
 import com.ruaymak3.Ruay.repositories.GoodsRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -103,5 +102,31 @@ public class GoodsService {
         goodsRepository.deleteById(id);
 
         return true;
+    }
+
+    public Optional<GoodsDto> getGoods(Long id) {
+        Optional<Goods> goodsOptional = goodsRepository.findById(id);
+        if (goodsOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Goods goods = goodsOptional.get();
+        GoodsDto goodsDto = new GoodsDto();
+        goodsDto.setId(goods.getGoodId());
+        goodsDto.setName(goods.getName());
+        goodsDto.setImage(goods.getImage());
+        goodsDto.setPrice(goods.getPrice());
+        goodsDto.setQuantity(goods.getQuantity());
+
+        // Map Category to CategoryDto
+        Category category = goods.getCategory();
+        if (category != null) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(category.getId());
+            categoryDto.setName(category.getName());
+            goodsDto.setCategory(categoryDto);
+        }
+
+        return Optional.of(goodsDto);
     }
 }

@@ -134,13 +134,23 @@ public class InvoiceService {
 //                .sum();
 //    }
 
-    public InvoiceDto getInvoice(Long id) {
-        Invoice invoice = invoiceRepository.findByIdWithDetails(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found with id: " + id));
+//    public InvoiceDto getInvoice(Long id) {
+//        Invoice invoice = invoiceRepository.findByIdWithDetails(id)
+//                .orElseThrow(() -> new RuntimeException("Invoice not found with id: " + id));
+//
+//        return convertToDto(invoice);  // แปลง Invoice พร้อม InvoiceDetail เป็น DTO
+//    }
 
-        return convertToDto(invoice);  // แปลง Invoice พร้อม InvoiceDetail เป็น DTO
+    public void checkAndUpdateInvoiceStatus(Invoice invoice) {
+        boolean allReceived = invoice.getInvoiceDetails().stream()
+                .allMatch(detail -> detail.getStatus() == InvoiceStatus.RECEIVED);
+
+        // ถ้าสินค้าทุกชิ้นใน Invoice ถูกตรวจรับแล้ว เปลี่ยนสถานะของ Invoice เป็น RECEIVED
+        if (allReceived) {
+            invoice.setStatus(InvoiceStatus.RECEIVED);
+            invoiceRepository.save(invoice);
+        }
     }
-
 
 
 

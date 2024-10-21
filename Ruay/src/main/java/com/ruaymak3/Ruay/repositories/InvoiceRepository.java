@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Optional<Invoice> findById(Long id);
 
-    @Query("SELECT i FROM Invoice i inner JOIN FETCH i.invoiceDetails WHERE i.id = :id")
+    @Query("SELECT i FROM Invoice i LEFT JOIN FETCH i.invoiceDetails WHERE i.id = :id")
     Optional<Invoice> findByIdWithDetails(@Param("id") Long id);
 
 
