@@ -10,6 +10,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 const router = createBrowserRouter([
   {
     path: "/",
+    element: ""
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // ใช้ useNavigate
 import Swal from 'sweetalert2';
 
@@ -7,14 +7,22 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();  // สร้างฟังก์ชัน navigate
 
+    useEffect(() => {
+        // Check if the user is already logged in
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const loginData = {
             usernameOrEmail: identifier,
             password: password
         };
-
+    
         try {
             const response = await fetch('http://localhost:8080/api/auth/login', {
                 method: 'POST',
@@ -23,25 +31,48 @@ const Login = () => {
                 },
                 body: JSON.stringify(loginData),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
-                console.log('Login successful:', data); // ตรวจสอบข้อมูลที่ได้จาก API
-                
-                // เก็บ token ลงใน localStorage
-                localStorage.setItem('authToken', data.token);
-                localStorage.setItem('username', data.username);
-
-                console.log('Token:', data.token);
-                console.log('Username:', data.username);
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login Successful',
-                    text: 'Welcome!'
-                }).then(() => {
-                    navigate('/dashboard');
-                });
+                console.log('Login successful:', data);
+    
+                // ตรวจสอบว่ามี jwt และข้อมูล user ในการตอบกลับ
+                if (data.jwt && data.user) {
+                    const token = data.jwt;
+                    const username = data.user.username;
+                    const name = data.user.name;
+                    const role = data.user.roles[0].name; // สมมติว่า roles ส่งมาเป็น array
+    
+                    // เก็บข้อมูลลงใน localStorage
+                    localStorage.setItem('authToken', token);
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('role', role);
+                    localStorage.setItem('name', name);
+    
+                    console.log('Token:', token);
+                    console.log('Username:', username);
+                    console.log('Name:', name);
+                    console.log('Role:', role);
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login Successful',
+                        text: 'Welcome : ' + username + '!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    }).then(() => {
+                        // เปลี่ยนเส้นทางไปยังหน้า Dashboard หลังจากการล็อกอินสำเร็จ
+                        navigate('/dashboard');
+                    });
+                } else {
+                    console.error('Missing JWT or user data in response');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed',
+                        text: 'Missing JWT or user data in response',
+                        confirmButtonText: 'Try Again'
+                    });
+                }
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -50,7 +81,7 @@ const Login = () => {
                     confirmButtonText: 'Try Again'
                 });
             }
-            
+    
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -61,7 +92,7 @@ const Login = () => {
             console.error('Login failed:', error);
         }
     };
-
+    
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
