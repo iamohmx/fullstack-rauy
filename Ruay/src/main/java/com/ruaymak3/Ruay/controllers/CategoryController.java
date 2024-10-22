@@ -26,6 +26,13 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
+    @GetMapping("/getCategory/{id}")
+    public ResponseEntity<?> getCategory(@PathVariable Long id) {
+        return categoryService.getCategory(id)
+                .map(categoryDto -> ResponseEntity.status(200).body(categoryDto))
+                .orElseGet(() -> ResponseEntity.status(404).body("Category not found with ID: " + id));
+    }
+
 //    @GetMapping("/getCategory/{id}")
 
     @PutMapping("/updateCategory/{id}")

@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/goods")
+@CrossOrigin(origins = "http://localhost:5173") // อนุญาตให้ CORS จาก origin นี้เท่านั้น
 public class GoodsController {
 
     @Autowired

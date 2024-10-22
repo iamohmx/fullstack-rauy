@@ -153,7 +153,12 @@ public class InvoiceService {
     }
 
 
+    public List<Object[]> getInvoiceReport(java.sql.Date date, java.sql.Date date1) {
+        return invoiceRepository.getInvoice(date, date1);
+    }
 
-
+    public List<Object[]> getAllInvoiceReport() {
+        return invoiceRepository.getAllSales();
+    }
 }
 

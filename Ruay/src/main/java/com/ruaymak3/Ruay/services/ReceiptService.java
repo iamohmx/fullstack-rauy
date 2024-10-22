@@ -65,4 +65,12 @@ public class ReceiptService {
         dto.setReceiptDetails(detailDtos);
         return dto;
     }
+
+    public List<Object[]> getSalesReport(Date startDate, Date endDate) {
+        return receiptRepository.getSales(startDate, endDate);
+    }
+
+    public List<Object[]> getAllSalesReport() {
+        return receiptRepository.getAllSales();
+    }
 }
