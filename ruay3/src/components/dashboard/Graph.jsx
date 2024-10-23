@@ -26,7 +26,7 @@ const Graph = ({ salesData, dates, label }) => {
             {
                 label: label,
                 data: salesData, // y-axis data (sales)
-                fill: false,
+                fill: true,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 tension: 0.1,
             },
