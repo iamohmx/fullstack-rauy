@@ -58,13 +58,34 @@ public class GoodsController {
     }
 
     @PutMapping("/updateGoods/{id}")
-    public ResponseEntity<?> updateGoods(@PathVariable Long id, @Valid @RequestBody Goods goods) {
-        Optional<Goods> goodsOptional = goodsService.updateGoods(id, goods);
+    public ResponseEntity<?> updateGoods(@PathVariable Long id, @Valid @RequestBody GoodsDto goodsDto) {
+        Optional<Goods> goodsOptional = goodsService.getGoodsEntityById(id);
         if (goodsOptional.isEmpty()) {
             return ResponseEntity.status(404).body("Goods not found");
         }
-        return ResponseEntity.ok(goodsService.updateGoods(id, goods));
+
+        Goods existingGoods = goodsOptional.get();
+        existingGoods.setName(goodsDto.getName());
+        existingGoods.setImage(goodsDto.getImage());
+        existingGoods.setPrice(goodsDto.getPrice());
+        existingGoods.setQuantity(goodsDto.getQuantity());
+
+        // ตรวจสอบว่า categoryId ถูกส่งมาและไม่เป็น null
+        if (goodsDto.getCategory() != null && goodsDto.getCategory().getId() != null) {
+            Category category = categoryRepository.findById(goodsDto.getCategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            existingGoods.setCategory(category);
+        }
+
+        goodsService.save(existingGoods);
+
+        return ResponseEntity.ok(goodsService.convertToDto(existingGoods));
     }
+
+
+
+
+
 
     @DeleteMapping("/deleteGoods/{id}")
     public ResponseEntity<?> deleteGoods(@PathVariable Long id) {

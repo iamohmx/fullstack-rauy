@@ -70,29 +70,27 @@ public class GoodsService {
         return goodsDto;
     }
 
-    public Optional<Goods> updateGoods(Long id, Goods goods) {
+    public Optional<Goods> updateGoods(Long id, GoodsDto goodsDto) {
         Optional<Goods> goodsOptional = goodsRepository.findById(id);
-        if (goodsOptional.isEmpty()) {
-            return goodsOptional;
-        }
-        if (goods.getName() != null){
-            goodsOptional.get().setName(goods.getName());
-        }
-        if (goods.getImage() != null){
-            goodsOptional.get().setImage(goods.getImage());
-        }
-        if (goods.getPrice() != 0){
-            goodsOptional.get().setPrice(goods.getPrice());
-        }
-        if (goods.getQuantity() != 0){
-            goodsOptional.get().setQuantity(goods.getQuantity());
-        }
-        if (goods.getCategory() != null){
-            goodsOptional.get().setCategory(goods.getCategory());
-        }
+        if (goodsOptional.isPresent()) {
+            Goods existingGoods = goodsOptional.get();
+            existingGoods.setName(goodsDto.getName());
+            existingGoods.setPrice(goodsDto.getPrice());
+            existingGoods.setQuantity(goodsDto.getQuantity());
 
-        return Optional.of(goodsRepository.save(goodsOptional.get()));
+            // อัปเดตหมวดหมู่หากส่งมา
+            if (goodsDto.getCategory().getId() != null) {
+                Category category = categoryRepository.findById(goodsDto.getCategory().getId())
+                        .orElseThrow(() -> new RuntimeException("Category not found"));
+                existingGoods.setCategory(category);
+            }
+
+            goodsRepository.save(existingGoods);
+            return Optional.of(existingGoods);
+        }
+        return Optional.empty();
     }
+
 
     public Boolean deleteGoods(Long id) {
         Optional<Goods> goodsOptional = goodsRepository.findById(id);
@@ -128,5 +126,33 @@ public class GoodsService {
         }
 
         return Optional.of(goodsDto);
+    }
+
+    public Optional<Goods> getGoodsEntityById(Long id) {
+        return goodsRepository.findById(id);
+    }
+
+    public Goods save(Goods goods) {
+        return goodsRepository.save(goods);
+    }
+
+    // Method to convert Goods entity to GoodsDto
+    public GoodsDto convertToDto(Goods goods) {
+        GoodsDto goodsDto = new GoodsDto();
+        goodsDto.setId(goods.getGoodId());
+        goodsDto.setName(goods.getName());
+        goodsDto.setImage(goods.getImage());
+        goodsDto.setPrice(goods.getPrice());
+        goodsDto.setQuantity(goods.getQuantity());
+
+        // ตรวจสอบว่ามี category และแปลง category เป็น DTO ด้วย
+        if (goods.getCategory() != null) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(goods.getCategory().getId());
+            categoryDto.setName(goods.getCategory().getName());
+            goodsDto.setCategory(categoryDto);
+        }
+
+        return goodsDto;
     }
 }
