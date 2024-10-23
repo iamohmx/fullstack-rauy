@@ -2,9 +2,11 @@ package com.ruaymak3.Ruay.services;
 
 import com.ruaymak3.Ruay.dto.InvoiceDetailDto;
 import com.ruaymak3.Ruay.dto.InvoiceDto;
+import com.ruaymak3.Ruay.models.Goods;
 import com.ruaymak3.Ruay.models.Invoice;
 import com.ruaymak3.Ruay.models.InvoiceDetail;
 import com.ruaymak3.Ruay.models.InvoiceStatus;
+import com.ruaymak3.Ruay.repositories.GoodsRepository;
 import com.ruaymak3.Ruay.repositories.InvoiceDetailRepository;
 import com.ruaymak3.Ruay.repositories.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,8 @@ public class InvoiceService {
     @Autowired
     private InvoiceDetailRepository invoiceDetailsRepository;
 
-//    @Autowired
-//    private StockService stockService;
+    @Autowired
+    private GoodsRepository goodsRepository; // เพิ่ม GoodsRepository เพื่ออัปเดตจำนวนสินค้า
 
     public InvoiceDto createInvoice(InvoiceDto invoiceDto) {
         // สร้าง Invoice ใหม่
@@ -33,31 +35,34 @@ public class InvoiceService {
         invoice.setSupId(invoiceDto.getSupId());
         invoice.setDate(new Date());
         invoice.setStatus(InvoiceStatus.ORDERED);
+        invoice.setTotal(invoiceDto.getTotal());
 
-        // รับค่า total จาก JSON และตั้งค่าให้กับ Invoice
-        invoice.setTotal(invoiceDto.getTotal());  // รับค่า total จาก DTO โดยตรง
-
-        // บันทึก Invoice ก่อน (รวม total ด้วย)
+        // บันทึก Invoice ก่อน
         invoice = invoiceRepository.save(invoice);
 
-        // เพิ่มรายละเอียดสินค้าลงใน InvoiceDetails
         List<InvoiceDetail> invoiceDetailsList = new ArrayList<>();
         for (InvoiceDetailDto detailsDto : invoiceDto.getInvoiceDetails()) {
             InvoiceDetail invoiceDetail = new InvoiceDetail();
-            invoiceDetail.setInvoice(invoice);  // เชื่อมโยง Invoice ที่ถูกบันทึกแล้วกับ InvoiceDetail
-            invoiceDetail.setGoodId(detailsDto.getGoodId());
+            invoiceDetail.setInvoice(invoice);  // เชื่อมโยง Invoice
+
+            // ค้นหาสินค้า (Goods) ตาม goodId
+            Goods goods = goodsRepository.findById(detailsDto.getGoodId())
+                    .orElseThrow(() -> new RuntimeException("Goods not found with id: " + detailsDto.getGoodId()));
+
+            invoiceDetail.setGoods(goods);  // ตั้งค่า Goods ใน InvoiceDetail
             invoiceDetail.setQuantity(detailsDto.getQuantity());
             invoiceDetail.setAmount(detailsDto.getAmount());
-            invoiceDetail.setStatus(InvoiceStatus.ORDERED);  // สถานะว่ายังไม่ได้ตรวจรับ
+            invoiceDetail.setStatus(InvoiceStatus.ORDERED);
+
             invoiceDetailsList.add(invoiceDetail);
         }
 
-        // บันทึก InvoiceDetails หลังจากที่บันทึก Invoice แล้ว
+        // บันทึก InvoiceDetails ทั้งหมด
         invoiceDetailsRepository.saveAll(invoiceDetailsList);
 
-        // แปลง Invoice ที่บันทึกแล้วเป็น DTO และส่งคืนผลลัพธ์
         return convertToDto(invoice);
     }
+
 
 
 //    public InvoiceDto receiveGoods(Long invoiceId) {
@@ -114,7 +119,10 @@ public class InvoiceService {
 
         // กำหนดค่าจาก InvoiceDetail ไปยัง InvoiceDetailDto
         dto.setId(details.getId());
-        dto.setGoodId(details.getGoodId());
+
+        // ดึง goodId จาก Goods ผ่านความสัมพันธ์ ManyToOne
+        dto.setGoodId(details.getGoods().getGoodId()); // ใช้ getGoods().getId() แทน
+
         dto.setQuantity(details.getQuantity());
         dto.setAmount(details.getAmount());
 
@@ -153,7 +161,12 @@ public class InvoiceService {
     }
 
 
+    public List<Object[]> getInvoiceReport(java.sql.Date date, java.sql.Date date1) {
+        return invoiceRepository.getInvoice(date, date1);
+    }
 
-
+    public List<Object[]> getAllInvoiceReport() {
+        return invoiceRepository.getAllSales();
+    }
 }
 

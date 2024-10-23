@@ -22,18 +22,45 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
+//    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+//                .orElseThrow(() ->
+//                        new UsernameNotFoundException("User not found with username or email: "+ usernameOrEmail));
+//
+//        Set<GrantedAuthority> authorities = user
+//                .getRoles()
+//                .stream()
+//                .map((role) -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+//
+//        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+//                user.getPassword(),
+//                authorities);
+//    }
+//    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail));
+//
+//        // สร้าง GrantedAuthority จาก Roles ของผู้ใช้
+//        Set<GrantedAuthority> authorities = user
+//                .getRoles()
+//                .stream()
+//                .map(role -> new SimpleGrantedAuthority(role.getName())) // Role name เช่น "ROLE_USER"
+//                .collect(Collectors.toSet());
+//
+//        // คืนค่า UserDetails โดยใช้ username และ roles
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+//    }
+    @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email: "+ usernameOrEmail));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail));
 
         Set<GrantedAuthority> authorities = user
                 .getRoles()
                 .stream()
-                .map((role) -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+                .map(role -> new SimpleGrantedAuthority(role.getName())) // สร้าง GrantedAuthority จาก Role
+                .collect(Collectors.toSet());
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(),
-                authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 }

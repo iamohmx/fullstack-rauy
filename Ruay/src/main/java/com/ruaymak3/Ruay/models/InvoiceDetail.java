@@ -15,8 +15,9 @@ public class InvoiceDetail {
     @JoinColumn(name = "inv_id", nullable = false)
     private Invoice invoice;
 
-    @Column(name = "good_id", nullable = false)
-    private Integer goodId;
+    @ManyToOne(optional = false) // สร้างความสัมพันธ์กับ Goods
+    @JoinColumn(name = "good_id", referencedColumnName = "good_id", nullable = false)
+    private Goods goods; // ใช้ Goods แทนการเก็บ goodId
 
     @Column(nullable = false)
     private Integer quantity;
@@ -26,5 +27,5 @@ public class InvoiceDetail {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private InvoiceStatus status; // ใช้ Enum แทน Integer สำหรับสถานะ
+    private InvoiceStatus status;
 }

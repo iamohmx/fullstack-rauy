@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 @Getter
 @Setter
 @Entity
@@ -16,7 +16,7 @@ public class Goods {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "good_id")
+    @Column(name = "good_id") // This is the primary key
     private Long goodId;
 
     @NotNull(message = "Product name is required")
@@ -37,7 +37,10 @@ public class Goods {
     @ColumnDefault("0")
     private int quantity;
 
+    @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InvoiceDetail> invoiceDetails = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private Category category; // Ensure Category entity is correctly defined
 }

@@ -17,8 +17,12 @@ public class ReceiptDetail {
     @JoinColumn(name = "rec_id", nullable = false)
     private Receipt receipt;
 
-    @Column(name = "good_id", nullable = false)
-    private Integer goodId;
+    @ManyToOne
+    @JoinColumn(name = "good_id", referencedColumnName = "good_id", nullable = false)  // เชื่อมโยงกับ Goods ผ่าน good_id
+    private Goods goods;
+
+    @Column(name = "good_id", insertable = false, updatable = false)  // เพื่อป้องกันการเกิดซ้ำของคอลัมน์ good_id
+    private Long goodId;
 
     @Column(nullable = false)
     private Integer quantity;

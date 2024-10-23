@@ -59,4 +59,17 @@ public class CategoryService {
 
         return "Category deleted";
     }
+
+    public Optional<Object> getCategory(Long id) {
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        if (categoryOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        Category category = categoryOptional.get();
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(category.getId());
+        categoryDto.setName(category.getName());
+
+        return Optional.of(categoryDto);
+    }
 }
