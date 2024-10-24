@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // ใช้ useNavigate
+import { useNavigate, Link } from 'react-router-dom'; // ใช้ useNavigate
 import Swal from 'sweetalert2';
 
 const Login = () => {
@@ -124,7 +124,10 @@ const Login = () => {
                                     />
                                 </div>
                                 <div className="d-flex justify-content-center py-2">
-                                    <button type="submit" className="btn btn-primary">Login</button>
+                                    <button type="submit" className="btn btn-primary">Login</button> &nbsp;
+                                    <Link to={"/"}  className="btn btn-secondary">
+                                        Back
+                                    </Link>
                                 </div>
                             </form>
                         </div>

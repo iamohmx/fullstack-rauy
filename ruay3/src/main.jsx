@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -6,11 +6,15 @@ import {
 } from "react-router-dom";
 import Login from './components/authen/Login';
 import Dashboard from './components/dashboard/Dashboard'; 
-import ProtectedRoute from './components/ProtectedRoute'; 
+import ProtectedRoute from './components/ProtectedRoute';
+import Goods from './components/goods/Goods'; 
+import OrderGoods from './components/procurements/OrderGoods';
+import OrderList from './components/procurements/OrderList';
+import Category from './components/categories/Category';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: ""
+    element: <Goods />
   },
   {
     path: "/login",
@@ -23,10 +27,34 @@ const router = createBrowserRouter([
         <Dashboard />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/order-goods",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <OrderGoods />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/order-list",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <OrderList />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/category",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <Category />
+      </ProtectedRoute>
+    ),
   }
 ]);
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <RouterProvider router={router} /> 
-  </StrictMode>,
+  // </StrictMode>, 
 )
