@@ -77,7 +77,7 @@ public class ReceiptService {
         List<ReceiptDetailDto> detailDtos = receipt.getReceiptDetails().stream()
                 .map(detail -> {
                     ReceiptDetailDto detailDto = new ReceiptDetailDto();
-                    detailDto.setGoodId(Long.valueOf(detail.getGoodId()));
+                    detailDto.setGoodId(Long.valueOf(detail.getGoods().getGoodId()));
                     detailDto.setQuantity(detail.getQuantity());
                     detailDto.setAmount(detail.getAmount());
                     return detailDto;
@@ -95,5 +95,39 @@ public class ReceiptService {
     public List<Object[]> getAllSalesReport() {
         return receiptRepository.getAllSales();
     }
+
+    public ReceiptDto getReceipt(Long id) {
+        Receipt receipt = receiptRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Receipt not found with id: " + id));
+        return convertToDto(receipt);
+    }
+
+    public List<ReceiptDto> getAllReceipts() {
+        List<Receipt> receipts = receiptRepository.findAll();
+        return receipts.stream()
+                .map(receipt -> {
+                    ReceiptDto receiptDto = new ReceiptDto();
+                    receiptDto.setId(receipt.getId());
+                    receiptDto.setDate(receipt.getDate().toString());
+                    receiptDto.setCust(receipt.getCust());
+                    receiptDto.setTotal(receipt.getTotal());
+
+                    // Map the receipt details to a list of ReceiptDetailDto
+                    List<ReceiptDetailDto> detailDtos = receipt.getReceiptDetails().stream()
+                            .map(detail -> {
+                                ReceiptDetailDto detailDto = new ReceiptDetailDto();
+                                detailDto.setGoodId(detail.getGoods().getGoodId());
+                                detailDto.setQuantity(detail.getQuantity());
+                                detailDto.setAmount(detail.getAmount());
+                                return detailDto;
+                            }).collect(Collectors.toList());
+
+                    // Set the list of ReceiptDetailDto to the receiptDto
+                    receiptDto.setReceiptDetails(detailDtos);
+
+                    return receiptDto;
+                }).collect(Collectors.toList());
+    }
+
 }
 

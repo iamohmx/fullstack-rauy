@@ -155,4 +155,11 @@ public class GoodsService {
 
         return goodsDto;
     }
+
+    public int getTotalStock() {
+        // Assuming Goods entity has a 'quantity' field
+        return goodsRepository.findAll().stream()
+                .mapToInt(Goods::getQuantity)
+                .sum();
+    }
 }

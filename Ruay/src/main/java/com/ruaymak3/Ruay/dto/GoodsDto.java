@@ -1,9 +1,6 @@
 package com.ruaymak3.Ruay.dto;
 
-import com.ruaymak3.Ruay.models.Category;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class GoodsDto {
