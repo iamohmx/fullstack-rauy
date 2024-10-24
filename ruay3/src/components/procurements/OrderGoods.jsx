@@ -98,32 +98,35 @@ const OrderGoods = () => {
     ]);
   };
 
+  // Handle removing a product line
+  const removeProductLine = (index) => {
+    const updatedInvoiceDetails = invoiceDetails.filter(
+      (detail, i) => i !== index
+    );
+    setInvoiceDetails(updatedInvoiceDetails);
+    updateTotal();
+  };
+
   // Handle input changes in each product line
   const handleProductLineChange = (index, field, value) => {
     const updatedInvoiceDetails = [...invoiceDetails];
-  
-    // อัพเดตฟิลด์ตามค่าอินพุต
+
     updatedInvoiceDetails[index][field] = value;
-  
-    console.log("Updated Invoice Details:", updatedInvoiceDetails);
-  
-    // ถ้าเป็นการเปลี่ยนแปลง quantity หรือ goodId
+
     if (field === "quantity" || field === "goodId") {
-      const selectedGood = goods.find((good) => good.id === parseInt(updatedInvoiceDetails[index].goodId));
-  
+      const selectedGood = goods.find(
+        (good) => good.id === parseInt(updatedInvoiceDetails[index].goodId)
+      );
+
       if (selectedGood) {
-        console.log("Selected Good:", selectedGood);
-  
         const quantity = parseFloat(updatedInvoiceDetails[index].quantity) || 0;
-        updatedInvoiceDetails[index].amount = quantity * selectedGood.price; // คำนวณ amount โดยการคูณ quantity กับ price
-        console.log("Calculated Amount:", updatedInvoiceDetails[index].amount);
+        updatedInvoiceDetails[index].amount = quantity * selectedGood.price;
       }
     }
-  
+
     setInvoiceDetails(updatedInvoiceDetails);
-    updateTotal(); // อัพเดตยอดรวม
+    updateTotal();
   };
-  
 
   // Update total amount
   const updateTotal = () => {
@@ -135,10 +138,9 @@ const OrderGoods = () => {
   };
 
   // Handle form submission
-  // Handle form submission
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const payload = {
       supId,
       date,
@@ -149,15 +151,13 @@ const handleSubmit = async (e) => {
         amount: parseFloat(item.amount),
       })),
     };
-  
-    console.log("Payload:", payload); // ตรวจสอบค่า payload ก่อนส่งไปที่ backend
-  
+
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
         throw new Error("No auth token found");
       }
-  
+
       const response = await fetch(
         "http://localhost:8080/api/v1/procurement/createInvoice",
         {
@@ -169,11 +169,11 @@ const handleSubmit = async (e) => {
           body: JSON.stringify(payload),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Failed to create invoice");
       }
-  
+
       Swal.fire({
         icon: "success",
         title: "Invoice Created",
@@ -181,6 +181,7 @@ const handleSubmit = async (e) => {
         showConfirmButton: false,
         timer: 2000,
       });
+
       // Clear form after successful submission
       setSupId("");
       setDate("");
@@ -193,156 +194,160 @@ const handleSubmit = async (e) => {
 
   const user = localStorage.getItem("name");
   const role = localStorage.getItem("role");
+
   return (
     <>
-        <Navbar name={user} role={role} />
-        <div className="container mt-4">
+      <Navbar name={user} role={role} />
+      <div className="container mt-4">
         <div className="row justify-content-center">
-            <div className="col-md-6">
+          <div className="col-md-6">
             <h1>Order Goods</h1>
             <form onSubmit={handleSubmit}>
-                <div className="mb-3">
+              <div className="mb-3">
                 <label htmlFor="supId" className="form-label">
-                    Supplier
+                  Supplier
                 </label>
                 <select
-                    className="form-select"
-                    id="supId"
-                    value={supId}
-                    onChange={(e) => setSupId(e.target.value)}
-                    required
+                  className="form-select"
+                  id="supId"
+                  value={supId}
+                  onChange={(e) => setSupId(e.target.value)}
+                  required
                 >
-                    <option value="">Select Supplier</option>
-                    {suppliers.map((supplier) => (
+                  <option value="">Select Supplier</option>
+                  {suppliers.map((supplier) => (
                     <option key={supplier.id} value={supplier.id}>
-                        {supplier.name}
+                      {supplier.name}
                     </option>
-                    ))}
+                  ))}
                 </select>
-                </div>
+              </div>
 
-                <div className="mb-3">
+              <div className="mb-3">
                 <label htmlFor="date" className="form-label">
-                    Date
+                  Date
                 </label>
                 <input
-                    type="date"
-                    className="form-control"
-                    id="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
+                  type="date"
+                  className="form-control"
+                  id="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
                 />
-                </div>
+              </div>
 
-                <div>
+              <div>
                 <h4>Invoice Details</h4>
                 {invoiceDetails.map((detail, index) => (
-                    <div key={index} className="mb-3">
+                  <div key={index} className="mb-3">
                     <div className="row">
-                        <div className="col">
-                        <label htmlFor={`goodId-${index}`} className="form-label">
-                            Good
+                      <div className="col">
+                        <label
+                          htmlFor={`goodId-${index}`}
+                          className="form-label"
+                        >
+                          Good
                         </label>
                         <select
-                            className="form-select"
-                            id={`goodId-${index}`}
-                            value={detail.goodId}
-                            onChange={(e) =>
-                            handleProductLineChange(
-                                index,
-                                "goodId",
-                                e.target.value
-                            )
-                            }
-                            required
+                          className="form-select"
+                          id={`goodId-${index}`}
+                          value={detail.goodId}
+                          onChange={(e) =>
+                            handleProductLineChange(index, "goodId", e.target.value)
+                          }
+                          required
                         >
-                            <option value="">Select Good</option>
-                            {goods.map((good) => (
+                          <option value="">Select Good</option>
+                          {goods.map((good) => (
                             <option key={good.id} value={good.id}>
-                                {good.name}
+                              {good.name}
                             </option>
-                            ))}
+                          ))}
                         </select>
-                        </div>
-                        <div className="col">
+                      </div>
+                      <div className="col">
                         <label
-                            htmlFor={`quantity-${index}`}
-                            className="form-label"
+                          htmlFor={`quantity-${index}`}
+                          className="form-label"
                         >
-                            Quantity
+                          Quantity
                         </label>
                         <input
-                            type="number"
-                            className="form-control"
-                            id={`quantity-${index}`}
-                            value={detail.quantity}
-                            onChange={(e) =>
-                            handleProductLineChange(
-                                index,
-                                "quantity",
-                                e.target.value
-                            )
-                            }
-                            required
+                          type="number"
+                          className="form-control"
+                          id={`quantity-${index}`}
+                          value={detail.quantity}
+                          onChange={(e) =>
+                            handleProductLineChange(index, "quantity", e.target.value)
+                          }
+                          required
                         />
-                        </div>
-                        <div className="col">
+                      </div>
+                      <div className="col">
                         <label
-                            htmlFor={`amount-${index}`}
-                            className="form-label"
+                          htmlFor={`amount-${index}`}
+                          className="form-label"
                         >
-                            Amount
+                          Amount
                         </label>
                         <input
-                            type="number"
-                            className="form-control"
-                            id={`amount-${index}`}
-                            value={detail.amount}
-                            onChange={(e) =>
-                            handleProductLineChange(
-                                index,
-                                "amount",
-                                e.target.value
-                            )
-                            }
-                            required
-                            readOnly
+                          type="number"
+                          className="form-control"
+                          id={`amount-${index}`}
+                          value={detail.amount}
+                          onChange={(e) =>
+                            handleProductLineChange(index, "amount", e.target.value)
+                          }
+                          required
+                          readOnly
                         />
-                        </div>
+                      </div>
+                      <div className="col">
+                        {/* Only show remove button if more than 1 product line */}
+                        {invoiceDetails.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn btn-danger mt-4"
+                            onClick={() => removeProductLine(index)}
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
                     </div>
-                    </div>
+                  </div>
                 ))}
 
                 <button
-                    type="button"
-                    className="btn btn-secondary mb-3"
-                    onClick={addProductLine}
+                  type="button"
+                  className="btn btn-secondary mb-3"
+                  onClick={addProductLine}
                 >
-                    Add Another Product
+                  Add Another Product
                 </button>
 
                 <div className="mb-3">
-                    <label htmlFor="total" className="form-label">
+                  <label htmlFor="total" className="form-label">
                     Total Amount
-                    </label>
-                    <input
+                  </label>
+                  <input
                     type="number"
                     className="form-control"
                     id="total"
                     value={total}
                     readOnly
-                    />
+                  />
                 </div>
 
                 <button type="submit" className="btn btn-primary">
-                    Submit
+                  Submit
                 </button>
-                </div>
+              </div>
             </form>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </>
   );
 };

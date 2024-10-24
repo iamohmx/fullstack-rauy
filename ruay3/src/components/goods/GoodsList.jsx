@@ -60,6 +60,64 @@ const GoodsList = () => {
     }
   };
 
+  const handleAddGoods = async () => {
+    const { value: formValues } = await Swal.fire({
+        title: 'Add New Goods',
+        html:
+            '<input id="swal-input1" class="swal2-input" placeholder="Name">' +
+            '<input id="swal-input2" class="swal2-input" placeholder="Price" type="number">' +
+            '<input id="swal-input3" class="swal2-input" placeholder="Quantity" type="number">' +
+            '<input id="swal-input4" class="swal2-input" placeholder="Image URL">' +
+            '<select id="swal-input5" class="swal2-input">' +
+            categories.map(category => `<option value="${category.id}">${category.name}</option>`).join('') +
+            '</select>',
+        focusConfirm: false,
+        preConfirm: () => {
+            const name = document.getElementById('swal-input1').value;
+            const price = document.getElementById('swal-input2').value;
+            const quantity = document.getElementById('swal-input3').value;
+            const image = document.getElementById('swal-input4').value;
+            const categoryId = document.getElementById('swal-input5').value;
+            return { name, price, quantity, image, categoryId };
+        }
+    });
+
+    if (formValues) {
+        const { name, price, quantity, image, categoryId } = formValues;
+        const payload = {
+            name,
+            image,
+            price: parseFloat(price),
+            quantity: parseInt(quantity),
+            category: {
+                id: parseInt(categoryId) // ส่ง object category พร้อม id
+            }
+        };
+
+        try {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch('http://localhost:8080/api/v1/goods/add', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload), // ส่ง payload เป็น JSON
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add goods");
+            }
+
+            Swal.fire('Added!', 'New goods have been added.', 'success');
+            fetchGoods(); // ดึงข้อมูลใหม่หลังจากเพิ่ม
+        } catch (error) {
+            Swal.fire('Error', error.message, 'error');
+        }
+    }
+};
+
+
   // ฟังก์ชันสำหรับอัปเดตสินค้า
   const handleUpdate = (good) => {
     Swal.fire({
@@ -203,6 +261,7 @@ const GoodsList = () => {
   return (
     <>
       <div className="container mt-4">
+        <button className="btn btn-primary mb-3" onClick={handleAddGoods}>เพิ่มข้อมูลสินค้า</button>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (

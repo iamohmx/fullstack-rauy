@@ -39,14 +39,8 @@ const Navbar = ({ name, role }) => {
                                 <Link to="/dashboard" className="nav-link">Home</Link>
                             </li>
                             {/* User Management */}
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                User
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Add User</a></li>
-                                    <li><a className="dropdown-item" href="#">User List</a></li>
-                                </ul>
+                            <li className="nav-item ">
+                                Customer
                             </li>
                             {/* End */}
                             
@@ -80,28 +74,9 @@ const Navbar = ({ name, role }) => {
                             {/* End */}
                             
                             {/* Category Management */}
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Category
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Add Category</a></li>
-                                    <li><a className="dropdown-item" href="#">Category List</a></li>
-                                </ul>
+                            <li className="nav-item">
+                                <Link to="/category" className="nav-link">Category</Link>
                             </li>
-                            {/* End */}
-                            
-                            {/* Goods Management */}
-                            {/* <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Goods
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Add Goods</a></li>
-                                    <li><a className="dropdown-item" href="#">Goods List</a></li>
-                                </ul>
-                            </li> */}
-                            {/* End */}
 
                         </ul>
                         <ul className="navbar-nav ms-auto">

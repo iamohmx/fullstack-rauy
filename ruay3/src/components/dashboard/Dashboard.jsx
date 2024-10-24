@@ -89,8 +89,9 @@ const Dashboard = () => {
                 </div>
                 <hr />
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
                         <h2>Goods List</h2>
+                        
                         <GoodsList />
                     </div>
                 </div>
