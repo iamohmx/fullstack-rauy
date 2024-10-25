@@ -8,6 +8,7 @@ import Login from './components/authen/Login';
 import Dashboard from './components/dashboard/Dashboard'; 
 import ProtectedRoute from './components/ProtectedRoute';
 import Goods from './components/goods/Goods'; 
+import GoodsList from './components/goods/GoodsList'
 import OrderGoods from './components/procurements/OrderGoods';
 import OrderList from './components/procurements/OrderList';
 import Category from './components/categories/Category';
@@ -87,6 +88,14 @@ const router = createBrowserRouter([
         <Supplier />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/goods",
+    element: (
+      <ProtectedRoute>
+        <GoodsList />
+      </ProtectedRoute>
+    )
   }
 ]);
 createRoot(document.getElementById('root')).render(

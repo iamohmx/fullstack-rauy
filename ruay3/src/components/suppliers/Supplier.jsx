@@ -197,7 +197,7 @@ const Supplier = () => {
     const role = localStorage.getItem('role')
     return (
         <>
-            <Navbar name={name} role={role}/>
+            <Navbar name={name} role={role  }/>
             <div className="container mt-4">
                 <h1>Supplier List</h1>
                 <button className="btn btn-primary mb-3" onClick={handleAddSupplier}>

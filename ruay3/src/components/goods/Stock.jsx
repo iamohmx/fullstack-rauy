@@ -24,6 +24,7 @@ const Stock = () => {
 
             const data = await response.json();
             setStock(data.totalStock); // ดึงค่า totalStock
+            fetchStock()
         } catch (error) {
             console.error('Failed to fetch stock:', error.message);
         }

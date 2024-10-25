@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import Graph from './Graph';
 import Navbar from './Navbar';
-import GoodsList from '../goods/GoodsList';
+// import GoodsList from '../goods/GoodsList';
 import GetReceipt from '../receipts/getReceipt';
 import Stock from '../goods/Stock';
 
@@ -96,10 +96,10 @@ const Dashboard = () => {
                 </div>
                 <hr />
                 <div className="row">
-                    <div className="col-md-12">
+                    {/* <div className="col-md-12">
                         <h2>Goods List</h2>
                         <GoodsList />
-                    </div>
+                    </div> */}
                     <div className="col-md-12">
                         <GetReceipt />
                     </div>

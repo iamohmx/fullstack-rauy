@@ -277,6 +277,7 @@ const GoodsList = () => {
   return (
     <>
       <div className="container mt-4">
+        <h2>GoodsList</h2>
         <button className="btn btn-primary mb-3" onClick={handleAddGoods}>เพิ่มข้อมูลสินค้า</button>
         {loading ? (
           <p>Loading...</p>

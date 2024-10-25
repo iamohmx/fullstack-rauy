@@ -45,7 +45,13 @@ const Navbar = ({ name, role }) => {
                                 </Link>
                             </li>
                             {/* End */}
-                            
+                            {/* User Management */}
+                            <li className="nav-item ">
+                                <Link to={'/goods'} className='nav-link'>
+                                    Goods
+                                </Link>
+                            </li>
+                            {/* End */}
                             {/* Supplier Management */}
                             <li className="nav-item">
                                 <Link to={'/suppliers'} className="nav-link">
