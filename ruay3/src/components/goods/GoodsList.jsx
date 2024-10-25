@@ -78,6 +78,12 @@ const GoodsList = () => {
             const quantity = document.getElementById('swal-input3').value;
             const image = document.getElementById('swal-input4').value;
             const categoryId = document.getElementById('swal-input5').value;
+
+            if (!name || !price || !quantity || !image || !categoryId) {
+                Swal.showValidationMessage('All fields are required');
+                return false;
+            }
+            
             return { name, price, quantity, image, categoryId };
         }
     });
@@ -140,6 +146,11 @@ const GoodsList = () => {
         const image = document.getElementById("swal-input5").value;
         const categoryId = document.getElementById("swal-input4").value;
         console.log("Category ID:", categoryId);
+
+        if(!name || !price || !quantity || !image || !categoryId) {
+          Swal.showValidationMessage("All fields are required");
+          return false;
+        }
         
         return { name, price, quantity, image, category: { id: categoryId } };
       },
@@ -147,6 +158,11 @@ const GoodsList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { name, price, quantity, image, category: { id: categoryId }} = result.value;
+        if(!name || !price || !quantity || !image || !categoryId) {
+          Swal.fire("Error", "All fields are required", "error");
+          return
+        }
+
         try {
           const token = localStorage.getItem("authToken");
           const response = await fetch(`http://localhost:8080/api/v1/goods/updateGoods/${good.id}`, {

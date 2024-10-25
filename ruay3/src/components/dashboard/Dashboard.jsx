@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import Graph from './Graph';
 import Navbar from './Navbar';
 import GoodsList from '../goods/GoodsList';
+import GetReceipt from '../receipts/getReceipt';
+import Stock from '../goods/Stock';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -79,6 +81,11 @@ const Dashboard = () => {
             <Navbar name={name} role={role} />
             <div className="container mt-5">
                 <h2>Dashboard</h2>
+                <div className="row justify-content-end">
+                    <div className="col-md-12">
+                        <Stock  />
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-6 col-md-6 mb-4">
                         <Graph salesData={salesData} dates={salesDates} label={"Sales Data"} />
@@ -91,8 +98,10 @@ const Dashboard = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <h2>Goods List</h2>
-                        
                         <GoodsList />
+                    </div>
+                    <div className="col-md-12">
+                        <GetReceipt />
                     </div>
                 </div>
             </div>

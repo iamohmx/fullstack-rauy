@@ -11,6 +11,10 @@ import Goods from './components/goods/Goods';
 import OrderGoods from './components/procurements/OrderGoods';
 import OrderList from './components/procurements/OrderList';
 import Category from './components/categories/Category';
+import GetReceipt from './components/receipts/getReceipt';
+import Stock from './components/goods/Stock';
+import Customer from './components/customers/Customer';
+import Supplier from './components/suppliers/Supplier';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,6 +53,38 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
         <Category />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getAllReceipts",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <GetReceipt />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getStock",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <Stock />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/customers",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <Customer />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/suppliers",
+    element: (
+      <ProtectedRoute>  {/* ใช้ ProtectedRoute */}
+        <Supplier />
       </ProtectedRoute>
     ),
   }
