@@ -40,19 +40,18 @@ const Navbar = ({ name, role }) => {
                             </li>
                             {/* User Management */}
                             <li className="nav-item ">
-                                Customer
+                                <Link to={'/customers'} className='nav-link'>
+                                    Customers
+                                </Link>
                             </li>
                             {/* End */}
                             
                             {/* Supplier Management */}
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Supplier
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Add Supplier</a></li>
-                                    <li><a className="dropdown-item" href="#">Supplier List</a></li>
-                                </ul>
+                            <li className="nav-item">
+                                <Link to={'/suppliers'} className="nav-link">
+                                    Suppliers
+                                </Link>
+                                
                             </li>
                             {/* End */}
 

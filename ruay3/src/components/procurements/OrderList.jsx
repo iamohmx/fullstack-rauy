@@ -72,11 +72,7 @@ const OrderList = () => {
 
   const user = localStorage.getItem("name");
   const role = localStorage.getItem("role");
-//   const getGoodNameById = (goodId) => {
-//     const good = goods.find((g) => g.id === goodId); 
-    
-//     return good ? good.name : "Unknown Good";  
-//   };
+
 
 const getGoodNameById = (goodId) => {
     console.log("Received goodId:", goodId); // ตรวจสอบค่า goodId ที่ได้รับ

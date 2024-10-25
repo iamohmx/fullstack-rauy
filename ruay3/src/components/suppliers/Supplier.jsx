@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import DataTable from 'react-data-table-component';
+import Navbar from '../dashboard/Navbar';
 
 const Supplier = () => {
     const [suppliers, setSuppliers] = useState([]);
@@ -192,29 +193,33 @@ const Supplier = () => {
             sortable: false,
         },
     ];
-
+    const name = localStorage.getItem('name')
+    const role = localStorage.getItem('role')
     return (
-        <div className="container mt-4">
-            <h1>Supplier List</h1>
-            <button className="btn btn-primary mb-3" onClick={handleAddSupplier}>
-                Add Supplier
-            </button>
-            {loading ? (
-                <p>Loading...</p>
-            ) : error ? (
-                <p>Error: {error}</p>
-            ) : (
-                <DataTable
-                    columns={columns}
-                    data={suppliers}
-                    pagination
-                    paginationPerPage={5}
-                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
-                    highlightOnHover
-                    striped
-                />
-            )}
-        </div>
+        <>
+            <Navbar name={name} role={role}/>
+            <div className="container mt-4">
+                <h1>Supplier List</h1>
+                <button className="btn btn-primary mb-3" onClick={handleAddSupplier}>
+                    Add Supplier
+                </button>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>Error: {error}</p>
+                ) : (
+                    <DataTable
+                        columns={columns}
+                        data={suppliers}
+                        pagination
+                        paginationPerPage={5}
+                        paginationRowsPerPageOptions={[5, 10, 15, 20]}
+                        highlightOnHover
+                        striped
+                    />
+                )}
+            </div>
+        </>
     );
 };
 
