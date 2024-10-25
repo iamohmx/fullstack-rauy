@@ -1,13 +1,11 @@
 package com.ruaymak3.Ruay.controllers;
 
-import com.ruaymak3.Ruay.repositories.UserRepository;
 import com.ruaymak3.Ruay.services.GoodsService;
 import com.ruaymak3.Ruay.services.InvoiceService;
 import com.ruaymak3.Ruay.services.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
