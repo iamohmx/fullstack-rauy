@@ -1,12 +1,11 @@
 package com.ruaymak3.Ruay.controllers;
 
-import com.ruaymak3.Ruay.repositories.UserRepository;
+import com.ruaymak3.Ruay.services.GoodsService;
 import com.ruaymak3.Ruay.services.InvoiceService;
 import com.ruaymak3.Ruay.services.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,8 +27,7 @@ public class SumSalesDataController {
     private InvoiceService invoiceService;
 
     @Autowired
-    private UserRepository userRepository;
-
+    private GoodsService goodsService;
 
     @GetMapping("/sales")
     public ResponseEntity<List<Object[]>> getSalesReport(
@@ -61,4 +59,16 @@ public class SumSalesDataController {
         List<Object[]> invoiceReport = invoiceService.getAllInvoiceReport();
         return ResponseEntity.ok(invoiceReport);
     }
+
+    @GetMapping("/stock")
+    public ResponseEntity<HashMap<String, Integer>> getStockReport() {
+        HashMap<String, Integer> stockReport = new HashMap<>();
+
+        // Call a method in goodsService to calculate the total stock of goods
+        int totalStock = goodsService.getTotalStock();
+
+        stockReport.put("totalStock", totalStock);
+        return ResponseEntity.ok(stockReport);
+    }
+
 }
