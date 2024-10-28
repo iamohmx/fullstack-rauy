@@ -43,7 +43,10 @@
     npm install
   ```
   <p>อันไหนก็ได้ ความหมายเดียวกัน</p>
-  
+  รันโปรเจค
+  ```nodejs
+    npm run dev
+  ```
 </div>
 
 <div>
